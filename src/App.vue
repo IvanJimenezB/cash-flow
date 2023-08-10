@@ -14,7 +14,6 @@ const Home = defineAsyncComponent(()=>{
 </script>
 
 <template>
-
   <Suspense>
     <template #default>
       <Home/>
