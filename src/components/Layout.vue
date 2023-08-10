@@ -1,6 +1,26 @@
+<script setup>
+import { ref } from "vue";
+
+const showMovements = ref(false);
+    
+</script>
 <template>
     <div class="header">
         <slot name="header"></slot>
+    </div>
+    <div class="resume">
+        <slot name="resume"></slot>
+    </div>
+    <div class="movements">
+        <div class="head" @click="showMovements = !showMovements">
+            <div class="grip"></div>
+        </div>
+        <transition  name="move">
+            <div class="body" v-show="showMovements">
+                <slot name="movements"></slot>
+                aaaa
+            </div>
+        </transition>
     </div>
 </template>
 <style scoped>
@@ -35,10 +55,9 @@
 }
 
 .movements .head {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
+  display: grid;
+  place-items: center;
+  padding: 4px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -54,4 +73,32 @@
   background-color: #e5e5e5;
   border-radius: 4px;
 }
+
+/* .move-enter-active {
+    transition: transform 1s ease-out;
+}
+
+.move-enter-from{
+    transform: translateY(500px);
+} */
+.move-enter-active {
+    animation-name: scroll;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+}
+.move-leave-active {
+    animation-name: scroll;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+}
+
+@keyframes scroll {
+    from {height: 0;}to{height: 75vh;}
+}
+
 </style>
