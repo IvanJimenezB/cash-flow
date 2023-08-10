@@ -1,30 +1,62 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import SplashScreen from "./components/SplashScreen.vue"
+import { defineAsyncComponent, ref} from "vue";
+
+const Home = defineAsyncComponent(()=>{
+  return new Promise((resolve) => {
+    
+      setTimeout(() => {
+        resolve(import("./components/Home.vue"))
+      }, 2500)
+  })
+})
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+  <Suspense>
+    <template #default>
+      <Home/>
+    </template>
+    <template #fallback>
+      <SplashScreen class="splash-hide" />
+    </template>
+  </Suspense>
+</template>
+<style>
+  html,
+  body,
+  .app {
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  * {
+    --brand-green: #04b500;
+    --brand-blue: #0689b0;
+  }
+
+  .scr-enter-from {
+  opacity: 1;
+  }
+  .scr-enter-to {
+  opacity: 0;
+  }
+
+  .scr-enter-active{
+        transition: opacity 5s ease;
+    }
+
+    .splash-hide{
+      animation: hiden 1s normal;
+      animation-delay: 1.5s;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes hiden {
+     from { opacity:1}
+     to{opacity: 0;} 
+    }
+
 </style>
