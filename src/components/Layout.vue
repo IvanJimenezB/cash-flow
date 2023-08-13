@@ -18,7 +18,6 @@ const showMovements = ref(false);
         <transition  name="move">
             <div class="body" v-show="showMovements">
                 <slot name="movements"></slot>
-                aaaa
             </div>
         </transition>
     </div>
@@ -65,6 +64,7 @@ const showMovements = ref(false);
 .movements .body {
   height: 75vh;
   width: 100%;
+  overflow: auto;
 }
 
 .movements .head .grip {
@@ -74,13 +74,6 @@ const showMovements = ref(false);
   border-radius: 4px;
 }
 
-/* .move-enter-active {
-    transition: transform 1s ease-out;
-}
-
-.move-enter-from{
-    transform: translateY(500px);
-} */
 .move-enter-active {
     animation-name: scroll;
     animation-duration: 0.5s;
@@ -95,10 +88,12 @@ const showMovements = ref(false);
     animation-direction: reverse;
     animation-iteration-count: 1;
     animation-timing-function: ease;
+    height: 0px;
 }
 
+
 @keyframes scroll {
-    from {height: 0;}to{height: 75vh;}
+    from {height: 0;overflow: hidden;}to{height: 75vh;overflow: hidden;}
 }
 
 </style>

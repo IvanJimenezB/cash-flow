@@ -10,7 +10,14 @@
             <Header/>
         </template>
         <template #resume>
-            <Resume/>
+            <Resume :label="null" :amount="null" :totalAmount="2000000">
+                <template #graphic>
+                    graphic
+                </template>
+                <template #action>
+                    action
+                </template>
+            </Resume>
         </template>
         <template #movements>
             <Movements/>
