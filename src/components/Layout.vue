@@ -64,7 +64,7 @@ const showMovements = ref(false);
 .movements .body {
   height: 75vh;
   width: 100%;
-  overflow: auto;
+  overflow-y:hidden ;
 }
 
 .movements .head .grip {
@@ -93,7 +93,7 @@ const showMovements = ref(false);
 
 
 @keyframes scroll {
-    from {height: 0;overflow: hidden;}to{height: 75vh;overflow: hidden;}
+    from {height: 0;}to{height: 75vh;}
 }
 
 </style>
