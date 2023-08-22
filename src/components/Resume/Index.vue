@@ -57,5 +57,6 @@ h1 {
   width: 100%;
   padding: 48px 24px;
   box-sizing: border-box;
+  flex-direction: column;
 }
 </style>
