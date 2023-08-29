@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from "vue"
+    import { ref, defineEmits, reactive } from "vue"
     import Modal from "./Modal.vue"
 
     const showModal = ref(false);
@@ -9,10 +9,24 @@
     const description = ref("");
     const movementType = ref();
 
+    const emit = defineEmits(['add','delete'])
+
     const closeModal = () => {showModal.value = !showModal.value}
+
     const submit = () => {
-        alert("se agrega el movement")
-        closeModal()
+      const form = reactive({
+        title : title,
+        description : description,
+        amount : movementType.value === "Gasto" ? amount.value * -1 : amount ,
+        time : new Date()
+      })
+
+      emit('add',form)
+      title.value = ""
+      amount.value = 0
+      description.value = ""
+      movementType.value = null
+      closeModal()
     }
 
 </script>

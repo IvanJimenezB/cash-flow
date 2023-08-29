@@ -1,9 +1,9 @@
 <script setup>
-    import { computed,defineProps, ref } from 'vue';
+    import { computed,defineProps, ref, defineEmits } from 'vue';
 
-    const props = defineProps({movements: Object})
+    const {amounts} = defineProps({amounts: Array})
 
-    const amounts = props.movements.map((o)=> o.amount )
+    // const amounts = props.movements.map((o)=> o.amount )
 
     const points = computed(()=>{
         return amounts.reduce((acc,item,index)=>{
@@ -28,6 +28,8 @@
 
     const x = ref()
 
+    const emit = defineEmits(['select'])
+
     const tap = ({target, touches})=>{
         showPointer.value = true
         const elementWidth = target.getBoundingClientRect().width
@@ -35,7 +37,7 @@
         const touch = touches[0].clientX
 
         x.value = (touch - elementX) / elementWidth * 300
-
+        emit('select')
     }
     const untap = (e)=>{
         showPointer.value = false

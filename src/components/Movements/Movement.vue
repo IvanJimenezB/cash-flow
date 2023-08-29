@@ -1,16 +1,17 @@
 <script setup>
     import { defineProps, toRefs } from 'vue';
     const props = defineProps({movement: Object})
-    const movement = toRefs(props.movement)
+    // const movement = toRefs(props.movement)
 
     const format = new Intl.NumberFormat("es-CO",{style: "currency", currency: "COP",maximumFractionDigits:0})
-    const amountFormat = format.format(movement.amount.value)
+    const amountFormat = format.format(props.movement.amount)
     
     const emit = defineEmits(['remove'])
 
     const remove = ()=> {
-        emit("remove",movement.id.value)
+        emit("remove",props.movement.id)
     }
+
 
 </script>
 <template>
@@ -21,7 +22,7 @@
        </div>
        <div class="action">
             <img src="../../assets/trash-icon.svg" alt="Trash icon" @click="remove">
-            <h4 :class="{red:movement.amount.value < 0,green:movement.amount.value>=0}">{{ amountFormat }}</h4>
+            <h4 :class="{red:movement.amount < 0,green:movement.amount>=0}">{{ amountFormat }}</h4>
        </div>
     </div>
 </template>

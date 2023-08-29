@@ -1,22 +1,30 @@
 <script setup>
-    import { defineProps, toRefs} from "vue"
+    import { computed, defineProps, toRefs, defineEmits} from "vue"
     import Movement from "./Movement.vue"
-    const props = defineProps({movements: Array})
+    const props = defineProps({
+      movements: {
+        type: Array,
+        default: () => [],
+      },
+    });
 
     const {movements} = toRefs(props)
 
+    const emit = defineEmits(['delete'])
+
     const remove = (id)=>{
-      alert("Emitido" + id)
+      emit('delete', id)
     }
+ 
 
 </script>
 <template>
-    <div class="movements">
-        <h2 class="title">Historial</h2>
-        <div class="content">
-          <Movement v-for="movement in movements" :key="movement.id" :movement="movement" @remove="remove" />
-        </div>
+  <div class="movements">
+    <h2 class="title">Historial</h2>
+    <div class="content">
+      <Movement v-for="movement in movements" :key="movement.id" :movement="movement" @remove="remove" />
     </div>
+  </div>
 </template> 
 <style scoped>
 .movements {
