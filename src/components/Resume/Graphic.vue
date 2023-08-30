@@ -1,32 +1,41 @@
 <script setup>
-    import { computed,defineProps, ref, defineEmits } from 'vue';
+    import { computed,defineProps, ref, defineEmits,toRefs, watch } from 'vue';
 
-    const {amounts} = defineProps({amounts: Array})
 
-    // const amounts = props.movements.map((o)=> o.amount )
+    const props= defineProps({amounts: Array})
+
+    const {amounts} = toRefs(props)
 
     const points = computed(()=>{
-        return amounts.reduce((acc,item,index)=>{
-            const x = index * 10
+        return amounts.value.reduce((acc,item,index)=>{
+            const x = (300 / amounts.value.length) * (index + 1)
             let y = amountToPixels(item)
             return `${acc} ${x},${y} `
-        },"")
+        },`0,${ amountToPixels(amounts.value.length != 0 ? amounts.value[0] : 0) } `)
     })
 
     const amountToPixels = (amount)=>{
-        const min = Math.min(...amounts)
-        const max = Math.max(...amounts)
+        const min = Math.min(...amounts.value)
+        const max = Math.max(...amounts.value)
 
         const amountAbs = amount + Math.abs(min)
         const minMax = Math.abs(max) + Math.abs(min)
         return 200 - ( (amountAbs * 100) / minMax) * 2
     }
 
-    const zero = computed(()=> amountToPixels(0))
+    const zero = computed(()=> {
+        return amounts.value.length == 0 ? 100 : amountToPixels(0)  
+    })
 
     const showPointer = ref(false)
 
     const x = ref()
+
+    watch(x,(value)=> {
+        const index = Math.ceil((value / (300 / amounts.value.length)))
+        if (index < 0 || index > amounts.value.length) return;
+        emit('select', amounts.value[index - 1])
+    })
 
     const emit = defineEmits(['select'])
 
@@ -37,11 +46,10 @@
         const touch = touches[0].clientX
 
         x.value = (touch - elementX) / elementWidth * 300
-        emit('select')
     }
+
     const untap = (e)=>{
         showPointer.value = false
-        console.log(e);
     }
 
 </script>
